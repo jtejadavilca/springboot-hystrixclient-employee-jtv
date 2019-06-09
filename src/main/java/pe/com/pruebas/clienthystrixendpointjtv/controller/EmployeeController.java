@@ -92,12 +92,12 @@ public class EmployeeController {
 	@DeleteMapping(value = "/employee/{id}", produces = "application/json; charset=utf-8")
 	public String deleteEmployee(@PathVariable String id) {
 		String urlMongo = "http://mongojtv-server/employee/" + id;
-//		Boolean result = employeeRepository.existsById(id);
-		Boolean result = (Boolean)restTemplate.getForObject(urlMongo, Boolean.class);
-		if( result ) {
+//		Boolean result = (Boolean)restTemplate.getForObject(urlMongo, Boolean.class);
+		Object result = restTemplate.getForObject(urlMongo, Object.class);
+		if( result != null ) {
 			restTemplate.delete(urlMongo, id);
 		}
-		return "{ \"operacionExitosa\" : " + (result ? "true" : "false") + " }";
+		return "{ \"operacionExitosa\" : " + (result != null? "true" : "false") + " }";
 	}
 	private String deleteEmployeeError(String id) {
 		return "{ \"operacionExitosa\" : false }";
